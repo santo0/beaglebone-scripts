@@ -1,0 +1,12 @@
+date
+echo Users Currently Logged In
+who
+
+
+person=Hello
+
+echo person
+echo $person
+echo "$person"
+echo '$person'
+echo \$person
