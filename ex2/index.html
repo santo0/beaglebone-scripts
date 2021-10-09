@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Automation Web Server with BeagleBone</title>
+    <script src = "/socket.io/socket.io.js" ></script>
+    <script>
+        // Establishing connection with server
+        var socket = io.connect(); /* global io */
+
+        // Changes the led mode
+        function changeMode(led, mode, modeId){
+            let freq;
+            if (mode == "blink"){
+                freq=document.getElementById("blink_input").value;
+            }else{
+                freq="";
+            }
+            let sData={"led":led, "mode":mode, "freq":freq}
+            socket.emit('changeMode', JSON.stringify(sData));
+            let showMsg;
+            if (mode != "blink"){
+                showMsg = "blink : " + freq;
+            }else{
+                showMsg = mode;
+            }
+            document.getElementById(modeId).innerHTML = showMsg;
+        }
+    </script>
+    
+    <style type="text/css">
+        .row {
+              width: 100%;
+              text-align: center; 
+        }
+    
+        .block {
+              width: 200px;
+              display: inline-block; 
+        }
+    </style>
+</head>
+
+<div class="row">
+    <div class="block">
+    <h2>LED0</h2>
+    <p id="outputStatus0">Status</p>
+    <button type="button" onclick="changeMode('USR0', 1, 'outputStatus0');">ON</button>
+    <button type="button" onclick="changeMode('USR0', 0, 'outputStatus0');">OFF</button>
+</div>
+<div class="block">
+    <h2>LED1</h2>
+    <p id="outputStatus1">Status</p>
+    <button type="button" onclick="changeMode('USR1', 1, 'outputStatus1');">ON</button>
+    <button type="button" onclick="changeMode('USR1', 0, 'outputStatus1');">OFF</button>
+</div>
+<div class="block">
+    <h2>LED2</h2>
+    <p id="outputStatus2">Status</p>
+    <button type="button" onclick="changeMode('USR2', 1, 'outputStatus2');">ON</button>
+    <button type="button" onclick="changeMode('USR2', 0, 'outputStatus2');">OFF</button>
+</div>
+<div class="block">
+    <h2>LED3</h2>
+    <p id="outputStatus3">Status</p>
+    
+    <button type="button" onclick="changeMode('USR3', 'on', 'outputStatus3');">ON</button>
+    <button type="button" onclick="changeMode('USR3', 'off', 'outputStatus3');">OFF</button> <br>
+    <button type="button" onclick="changeMode('USR3', 'default', 'outputStatus3');">DEFAULT</button>
+    <button type="button" onclick="changeMode('USR3', 'heartbeat', 'outputStatus3');">HEARTBEAT</button>
+    <button type="button" onclick="changeMode('USR3', 'blink', 'outputStatus3');">BLINK</button>
+    <input type="text" id="blink_input" name="blink_input" size=4>
+</div>
+    
+</div>
+
+
+</body>
+</html>

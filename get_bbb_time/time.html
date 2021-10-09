@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>IoT sensor with BeagleBone</title>
+    <script src = "/socket.io/socket.io.js" ></script>
+    <script>
+        // Establishing connection with server
+        var socket = io.connect(); /* global io */
+		var updateInterval;
+
+		// Update when data received on socket
+		socket.on('sensorData', function(data) {
+			var myData = JSON.parse(data);
+            document.getElementById("bbbTime").innerHTML = 
+				"Today is: " + myData.bbbTime;
+		});	
+
+		// Set update interval
+	   function update() {
+			updateInterval = setInterval(getValues, 1000);
+		}
+
+        // Request sensor data
+        function getValues(){
+			// Emit message to get data
+			socket.emit('fetchTime');
+       }
+
+    </script>
+</head>
+<body onload="update()">
+	<h2>Beaglebone date and time</h2>
+	<p id="bbbTime">----</p>
+</div>
+</body>
+</html>

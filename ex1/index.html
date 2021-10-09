@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Automation Web Server with BeagleBone</title>
+    <script src = "/socket.io/socket.io.js" ></script>
+    <script>
+        // Establishing connection with server
+        var socket = io.connect(); /* global io */
+
+        // Changes the led state
+        function changeState(led, state, statusId){
+            if (state==1){
+                // Emit message changing the state to 1
+                let sData = {"led":led, "state":1}
+                socket.emit('changeState', JSON.stringify(sData));
+                // Change led status on web page to ON
+                document.getElementById(statusId).innerHTML = "Status: ON";
+            }
+            else if (state==0){
+                // Emit message changing the state to 0
+                let sData = {"led":led, "state":0}
+                socket.emit('changeState', JSON.stringify(sData));
+                // Change led status on web page to OFF
+                document.getElementById(statusId).innerHTML = "Status: OFF";
+            }
+        }
+    </script>
+</head>
+<div>
+    <h2>LED0</h2>
+    <p id="outputStatus0">Status</p>
+    <button type="button" onclick="changeState('USR0', 1, 'outputStatus0');">ON</button>
+    <button type="button" onclick="changeState('USR0', 0, 'outputStatus0');">OFF</button>
+</div>
+<div>
+    <h2>LED1</h2>
+    <p id="outputStatus1">Status</p>
+    <button type="button" onclick="changeState('USR1', 1, 'outputStatus1');">ON</button>
+    <button type="button" onclick="changeState('USR1', 0, 'outputStatus1');">OFF</button>
+</div>
+<div>
+    <h2>LED2</h2>
+    <p id="outputStatus2">Status</p>
+    <button type="button" onclick="changeState('USR2', 1, 'outputStatus2');">ON</button>
+    <button type="button" onclick="changeState('USR2', 0, 'outputStatus2');">OFF</button>
+</div>
+<div>
+    <h2>LED3</h2>
+    <p id="outputStatus3">Status</p>
+    <button type="button" onclick="changeState('USR3', 1, 'outputStatus3');">ON</button>
+    <button type="button" onclick="changeState('USR3', 0, 'outputStatus3');">OFF</button>
+</div>
+</body>
+</html>
